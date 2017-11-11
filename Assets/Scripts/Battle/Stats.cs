@@ -6,13 +6,14 @@ public class Stats : MonoBehaviour {
 
     public int Health;
     public int MaxHealth;
+    public int BaseAttack;
     public int Speed;
     public int Evasion;
     public int Defense;
     public int AP;
     public int MaxAP;
     public AttackPlug Type;
-    public StatusEffect[] StatusEffects;
+    public List<StatusEffect> StatusEffects;
 
     // Use this for initialization
     void Start () {
