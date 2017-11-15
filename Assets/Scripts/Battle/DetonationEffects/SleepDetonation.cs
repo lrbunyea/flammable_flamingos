@@ -2,15 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SleepDetonation : MonoBehaviour {
+public class SleepDetonation : DetonationEffect {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public override void Detonate(Stats Target)
+    {
+        Target.StatusEffects.Add(new SleepStatus());
+    }
 }
