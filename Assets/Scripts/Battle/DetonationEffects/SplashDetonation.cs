@@ -8,11 +8,11 @@ public class SplashDetonation : DetonationEffect {
 
     public override void Detonate(Stats Target)
     {
-        Target.Health -= 10;
+        Target.ApplyDamage(10, AttackPlug.None, 1);
 
         foreach(Character enemy in enemylist)
         {
-            enemy.stats.Health -= 5;
+            enemy.stats.ApplyDamage(5, AttackPlug.None, 1);
         }
     }
 }

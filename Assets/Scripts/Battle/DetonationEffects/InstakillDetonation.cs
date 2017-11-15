@@ -17,7 +17,7 @@ public class InstakillDetonation : DetonationEffect {
         }
         else
         {
-            Target.Health -= 10;
+            Target.ApplyDamage(10, AttackPlug.None, 1);
         }
 
     }

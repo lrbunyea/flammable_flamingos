@@ -95,6 +95,7 @@ public class BattleManager : MonoBehaviour {
     {
         Attack a = Attacks.Dequeue();
         List<Stats> targets = new List<Stats>();
+        int attack = turnOrder.Peek().stats.BaseAttack;
 
         if (a.socket.Type == TargetType.Single)
             targets.Add(a.target);
@@ -129,16 +130,31 @@ public class BattleManager : MonoBehaviour {
                     chance = Random.Range(1, 100);
                     if(chance < a.socket.PrimeChance)
                         s.PrimedWith = a.plug;
-                    s.ApplyDamage(a.socket.Damage, a.plug);
+                    s.ApplyDamage(a.socket.Damage, a.plug, attack);
                 }
                 else // Detonate
                 {
                     DetonationEffect de = DetonationMap.GetEffect(s.PrimedWith, a.plug);
                     de.Detonate(s);
-                    s.ApplyDamage(a.socket.Damage);
+                    s.ApplyDamage(a.socket.Damage, a.plug, attack);
                     s.PrimedWith = AttackPlug.None;
                 }
             }
+            /*
+            if(s.Health <= 0)
+            {
+                targets.Remove(s);
+                foreach(Character c in enemies)
+                {
+                    if(c.stats == s)
+                    {
+                        enemies.Remove(c);
+                        
+                    }
+                }
+                s.Kill();
+            }
+            */
 
         }
     }

@@ -27,7 +27,7 @@ public class Stats : MonoBehaviour {
 		
 	}
 
-    public void ApplyDamage(int damage, AttackPlug damageType)
+    public void ApplyDamage(int damage, AttackPlug damageType, int attackStat)
     {
         bool applyWeakness = false;
         AttackPlug weakness = DetermineWeakness();
@@ -39,6 +39,7 @@ public class Stats : MonoBehaviour {
         {
             damage *= WeaknessMultiplier;
         }
+        damage *= attackStat;
 
         damage /= Defense;
 
@@ -74,5 +75,11 @@ public class Stats : MonoBehaviour {
                     return AttackPlug.None;
                 }
         }
+    }
+
+    public void Kill()
+    {
+        Destroy(gameObject);
+        
     }
 }
