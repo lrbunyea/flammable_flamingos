@@ -129,7 +129,7 @@ public class BattleManager : MonoBehaviour {
                     chance = Random.Range(1, 100);
                     if(chance < a.socket.PrimeChance)
                         s.PrimedWith = a.plug;
-                    s.ApplyDamage(a.socket.Damage);
+                    s.ApplyDamage(a.socket.Damage, a.plug);
                 }
                 else // Detonate
                 {
