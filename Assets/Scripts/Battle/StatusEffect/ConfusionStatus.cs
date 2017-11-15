@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NewBehaviourScript : StatusEffect {
+public class ConfusionStatus : StatusEffect {
 
     public int turns;
 
@@ -35,6 +35,10 @@ public class NewBehaviourScript : StatusEffect {
         if(turns != 3)
         {
             turns++;
+        }
+        else
+        {
+            Complete = true;
         }
     }
 
