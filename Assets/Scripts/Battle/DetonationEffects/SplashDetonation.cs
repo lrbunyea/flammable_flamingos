@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SplashDetonation : DetonationEffect {
 
-    Character[] enemylist = GameObject.FindObjectOfType<BattleManager>().enemies;
+    List<Character> enemylist = GameObject.FindObjectOfType<BattleManager>().enemies;
 
     public override void Detonate(Stats Target)
     {

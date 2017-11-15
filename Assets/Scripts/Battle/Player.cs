@@ -5,8 +5,7 @@ using UnityEngine;
 
 public class Player : Character
 {
-
-    public override void NextTurn(Stats[] enemies)
+    public override Turn NextTurn(Character player, List<Character> enemies)
     {
         throw new NotImplementedException();
     }

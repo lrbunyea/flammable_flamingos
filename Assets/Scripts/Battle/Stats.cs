@@ -13,6 +13,7 @@ public class Stats : MonoBehaviour {
     public int AP;
     public int MaxAP;
     public AttackPlug Type;
+    public AttackPlug PrimedWith;
     public List<StatusEffect> StatusEffects;
 
     // Use this for initialization

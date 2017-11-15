@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Turn : MonoBehaviour
+public class Turn
 {
-    public Attack Priming;
-    public Attack Detonating;
+    public List<Attack> Attacks;
 }

@@ -5,6 +5,5 @@ using UnityEngine;
 public abstract class Character : MonoBehaviour {
 
     public Stats stats;
-
-    public abstract void NextTurn(Stats[] enemies);
+    public abstract Turn NextTurn(Character player, List<Character> enemies);
 }

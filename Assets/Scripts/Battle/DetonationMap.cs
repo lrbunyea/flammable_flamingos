@@ -11,18 +11,17 @@ public enum AttackPlug
     Debuff
 }
 
-public enum AttackSocket
+public enum TargetType
 {
-    SelfCare,
-    DamageSingle,
-    DamageAoE,
-    PrimeSingle,
-    PrimeAoE
+    Self,
+    Single,
+    Area
 }
 
 public class DetonationMap
 {
     private static Dictionary<int, DetonationEffect> Map;
+
     private static int getKey(AttackPlug Primer, AttackPlug Detonator)
     {
         return 1 >> (int)Primer | 1 >> (int)Detonator;
@@ -32,4 +31,5 @@ public class DetonationMap
     {
         return Map[getKey(Primer, Detonator)];
     }
+    
 }
