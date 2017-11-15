@@ -27,8 +27,52 @@ public class Stats : MonoBehaviour {
 		
 	}
 
-    public void ApplyDamage(int damage)
+    public void ApplyDamage(int damage, AttackPlug damageType)
     {
+        bool applyWeakness = false;
+        AttackPlug weakness = DetermineWeakness();
+        if(damageType == weakness && damageType != AttackPlug.None)
+        {
+            applyWeakness = true;
+        }
+        if (applyWeakness)
+        {
+            damage *= WeaknessMultiplier;
+        }
 
+        damage /= Defense;
+
+        Health -= damage;
+    }
+
+    public AttackPlug DetermineWeakness()
+    {
+        switch (Type)
+        {
+            case AttackPlug.Bomb:
+                {
+                    return AttackPlug.CC;
+                }
+
+            case AttackPlug.CC:
+                {
+                    return AttackPlug.Debuff;
+                }
+
+            case AttackPlug.Debuff:
+                {
+                    return AttackPlug.Dot;
+                }
+
+            case AttackPlug.Dot:
+                {
+                    return AttackPlug.Bomb;
+                }
+
+            default:
+                {
+                    return AttackPlug.None;
+                }
+        }
     }
 }
