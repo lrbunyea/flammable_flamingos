@@ -12,6 +12,7 @@ public class Stats : MonoBehaviour {
     public int Defense;
     public int AP;
     public int MaxAP;
+    public int WeaknessMultiplier;
     public AttackPlug Type;
     public AttackPlug PrimedWith;
     public List<StatusEffect> StatusEffects;

@@ -39,6 +39,7 @@ public class DetonationMap
         Map.Add(getKey(AttackPlug.Bomb, AttackPlug.Debuff), new InstakillDetonation());
         Map.Add(getKey(AttackPlug.Dot, AttackPlug.Bomb), new PoisonDetonation());
         Map.Add(getKey(AttackPlug.Dot, AttackPlug.CC), new SpikesDetonation());
+        Map.Add(getKey(AttackPlug.Dot, AttackPlug.Debuff), new SleepDetonation());
         Map.Add(getKey(AttackPlug.CC, AttackPlug.Bomb), new ConfusionDetonation());
         Map.Add(getKey(AttackPlug.CC, AttackPlug.Dot), new SleepDetonation());
         Map.Add(getKey(AttackPlug.CC, AttackPlug.Debuff), new ParalyzeDetonation());
