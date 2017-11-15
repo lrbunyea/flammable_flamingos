@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class NewBehaviourScript : StatusEffect {
 
+    public int turns;
+
     public override void PreTurn(Stats stats, Turn turn)
     {
+
         int i = 0;
         Character[] newTargetList = GameObject.FindObjectsOfType<Character>();
         Stats[] newStatList = new Stats[newTargetList.Length];
@@ -17,11 +20,22 @@ public class NewBehaviourScript : StatusEffect {
             i++;
         }
 
+        List<Attack> tempAttackList = turn.Attacks;
+
+        foreach(Attack attack in tempAttackList)
+        {
+            attack.target = newStatList[randomTarget];
+            randomTarget = Random.Range(0, newTargetList.Length - 1);
+        }
+
     }
 
     public override void PostTurn(Stats stats, Turn turn)
     {
-        throw new System.NotImplementedException();
+        if(turns != 3)
+        {
+            turns++;
+        }
     }
 
    
