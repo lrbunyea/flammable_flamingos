@@ -31,5 +31,10 @@ public class DetonationMap
     {
         return Map[getKey(Primer, Detonator)];
     }
+
+    private static void initialize()
+    {
+        Map.Add(getKey(AttackPlug.Bomb, AttackPlug.Dot), new HeavyDamageDetonation());
+    }
     
 }

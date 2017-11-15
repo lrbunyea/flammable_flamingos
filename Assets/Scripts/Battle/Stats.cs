@@ -25,4 +25,9 @@ public class Stats : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    public void ApplyDamage(int damage)
+    {
+
+    }
 }

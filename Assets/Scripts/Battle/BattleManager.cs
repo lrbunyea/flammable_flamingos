@@ -94,24 +94,53 @@ public class BattleManager : MonoBehaviour {
     void ApplyAttack()
     {
         Attack a = Attacks.Dequeue();
-        Stats target = a.target;
+        List<Stats> targets = new List<Stats>();
 
-        // calculate hit chance
+        if (a.socket.Type == TargetType.Single)
+            targets.Add(a.target);
+        else if(a.socket.Type == TargetType.Area)
+        {
+            Character currentChar = turnOrder.Peek();
+            if (currentChar != player)
+                targets.Add(player.stats);
+            else
+                foreach (Character c in enemies)
+                    targets.Add(c.stats);
+        }
+        else
+        {
+            // TODO self care
+            // TODO make status map
+            return;
+        }
 
         // foreach target
-        if (target.PrimedWith == AttackPlug.None) // Prime
+        foreach (Stats s in targets)
         {
-            // Calculate Priming chance
-            target.PrimedWith = a.plug;
-        }
-        else // Detonate
-        {
-            DetonationEffect de = DetonationMap.GetEffect(target.PrimedWith, a.plug);
-            // TODO apply de
-            target.PrimedWith = AttackPlug.None;
-        }
+            // calculate hit chance
+            int hitChance = s.Evasion - a.socket.Accuracy;
+            int chance = Random.Range(1, 100);
 
-        
+            if(chance < hitChance)
+            {
+                if (s.PrimedWith == AttackPlug.None) // Prime
+                {
+                    // Calculate Priming chance
+                    chance = Random.Range(1, 100);
+                    if(chance < a.socket.PrimeChance)
+                        s.PrimedWith = a.plug;
+                    s.ApplyDamage(a.socket.Damage);
+                }
+                else // Detonate
+                {
+                    DetonationEffect de = DetonationMap.GetEffect(s.PrimedWith, a.plug);
+                    de.Detonate(s);
+                    s.ApplyDamage(a.socket.Damage);
+                    s.PrimedWith = AttackPlug.None;
+                }
+            }
+
+        }
     }
 
     void EndTurn()
@@ -124,12 +153,23 @@ public class BattleManager : MonoBehaviour {
         turnOrder.Enqueue(turnOrder.Dequeue());
         State = BattleState.WaitForTurn;
 
-        // TODO remove all PrimedWith
+        // Remove Primed effect from all characters
+        player.stats.PrimedWith = AttackPlug.None;
+        foreach (Character c in enemies)
+            c.stats.PrimedWith = AttackPlug.None;
+
+        endNow = false;
+    }
+
+    public void EndTurnImmediately()
+    {
+        endNow = true;
     }
 
     Turn turn;
     Queue<Attack> Attacks;
     bool AnimDone;
+    bool endNow;
 
     void Update()
     {
@@ -144,8 +184,10 @@ public class BattleManager : MonoBehaviour {
                     SetupTurn();
                 break;
             case BattleState.ApplyingTurn:
-
-                //break;
+                while (!endNow && Attacks.Count > 0)
+                    ApplyAttack();
+                EndTurn();
+                break;
             case BattleState.None:
                 return;
         }
