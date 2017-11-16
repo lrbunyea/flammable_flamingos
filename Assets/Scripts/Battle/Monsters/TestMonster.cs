@@ -7,22 +7,27 @@ public class TestMonster : Character
 {
     public override Turn NextTurn(Character player, List<Character> enemies)
     {
+        this.stats.AP = this.stats.MaxAP;
         Turn turn = new Turn();
-        Attack attack = new Attack();
-        
+        int i = 0;
 
-        attack.plug = AttackPlug.None;
-        attack.socket = new DamageSingle();
-        attack.target = enemies[0].stats;
+        while (this.stats.AP > 0) { 
+            Attack attack = new Attack();
 
-        turn.Attacks.Add(attack);
 
+            attack.plug = AttackPlug.None;
+            attack.socket = new DamageSingle();
+            attack.target = enemies[0].stats;
+
+            turn.Attacks.Add(attack);
+            this.stats.AP--;
+        }
         return turn;
     }
 
     // Use this for initialization
     void Start () {
-		
+        
 	}
 	
 	// Update is called once per frame
