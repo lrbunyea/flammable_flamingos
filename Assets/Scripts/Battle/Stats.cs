@@ -13,6 +13,7 @@ public class Stats : MonoBehaviour {
     public int AP;
     public int MaxAP;
     public int WeaknessMultiplier;
+    public bool Dead = false;
     public AttackPlug Type;
     public AttackPlug PrimedWith;
     public List<StatusEffect> StatusEffects;
@@ -79,7 +80,7 @@ public class Stats : MonoBehaviour {
 
     public void Kill()
     {
-        Destroy(gameObject);
+        Dead = true;
         
     }
 }

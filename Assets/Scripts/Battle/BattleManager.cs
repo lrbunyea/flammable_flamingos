@@ -96,10 +96,17 @@ public class BattleManager : MonoBehaviour {
         Attack a = Attacks.Dequeue();
         List<Stats> targets = new List<Stats>();
         int attack = turnOrder.Peek().stats.BaseAttack;
+        Queue<Character> tempOrder = new Queue<Character>();
 
         if (a.socket.Type == TargetType.Single)
+        {
+            if (a.target.Dead)
+            {
+                a.target = enemies[Random.Range(0, enemies.Count - 1)].stats;
+            }
             targets.Add(a.target);
-        else if(a.socket.Type == TargetType.Area)
+        }
+        else if (a.socket.Type == TargetType.Area)
         {
             Character currentChar = turnOrder.Peek();
             if (currentChar != player)
@@ -140,10 +147,10 @@ public class BattleManager : MonoBehaviour {
                     s.PrimedWith = AttackPlug.None;
                 }
             }
-            /*
+            
             if(s.Health <= 0)
             {
-                targets.Remove(s);
+                int index = 0;   
                 foreach(Character c in enemies)
                 {
                     if(c.stats == s)
@@ -152,9 +159,23 @@ public class BattleManager : MonoBehaviour {
                         
                     }
                 }
+
+                while(index < turnOrder.Count)
+                {
+                    if (turnOrder.Peek().stats != s) {
+                        tempOrder.Enqueue(turnOrder.Dequeue());
+                     }
+                    index++;
+                }
+                turnOrder = tempOrder;
+
+                index = 0;
+
+                targets.Remove(s);
+                
                 s.Kill();
             }
-            */
+            
 
         }
     }
