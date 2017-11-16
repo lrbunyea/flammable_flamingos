@@ -6,5 +6,7 @@ public class Turn
 {
     public List<Attack> Attacks;
 
-
+	public Turn(){
+		Attacks = new List<Attack> ();
+	}
 }

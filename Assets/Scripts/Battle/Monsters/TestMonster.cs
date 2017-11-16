@@ -17,7 +17,7 @@ public class TestMonster : Character
 
             attack.plug = AttackPlug.None;
             attack.socket = new DamageSingle();
-            attack.target = enemies[0].stats;
+            attack.target = player.stats;
 
             turn.Attacks.Add(attack);
             this.stats.AP--;
@@ -25,13 +25,7 @@ public class TestMonster : Character
         return turn;
     }
 
-    // Use this for initialization
-    void Start () {
-        
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+	public TestMonster() : base(){
+		Name = "Test";
 	}
 }

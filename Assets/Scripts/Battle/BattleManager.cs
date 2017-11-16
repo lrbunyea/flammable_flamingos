@@ -6,7 +6,7 @@ public enum BattleState
 {
     None,
     WaitForTurn,
-    ApplyingTurn,
+    ApplyingTurn
 }
 
 public class BattleManager : MonoBehaviour {
@@ -33,23 +33,40 @@ public class BattleManager : MonoBehaviour {
 
     private Queue<Character> turnOrder;
     
+	Turn turn;
+	Queue<Attack> Attacks;
+	bool AnimDone;
+	bool endNow;
     
     public int CharOrder(Character a, Character b)
     {
-        return a.stats.Speed - b.stats.Speed;
+        return b.stats.Speed - a.stats.Speed;
     }
 
-    public void SetupBattle(Character player, List<Character> enemies, List<Event> events)
+	public void SetupBattle(Character new_player, List<Character> new_enemies, List<Event> new_events)
     {
-        this.player = player;
-        this.enemies = enemies;
-        this.events = events;
+		Debug.Log ("Beep");
+
+        this.player = new_player;
+        this.enemies = new_enemies;
+        this.events = new_events;
 
         // sort characters by speed to get turn order
         List<Character> order = new List<Character>();
+		order.Add (this.player);
+		foreach (Character c in this.enemies)
+			order.Add (c);
+
         order.Sort(CharOrder);
         foreach (Character c in order)
             turnOrder.Enqueue(c);
+
+		foreach (Character c in turnOrder) {
+			Debug.Log (c.Name);
+		}
+
+		((Player)player).ResetAttacks (enemies[0]);
+		State = BattleState.WaitForTurn;
     }
 
     public void EndBattle()
@@ -74,7 +91,14 @@ public class BattleManager : MonoBehaviour {
 
     void Start()
     {
+		List<Character> en = new List<Character> ();
+		en.Add (new TestMonster ());
+		turnOrder = new Queue<Character> ();
 
+		SetupBattle (new Player (), en, new List<Event> ());
+
+		turn = new Turn();
+		Attacks = new Queue<Attack>();
     }
 
     void SetupTurn()
@@ -190,6 +214,8 @@ public class BattleManager : MonoBehaviour {
         turnOrder.Enqueue(turnOrder.Dequeue());
         State = BattleState.WaitForTurn;
 
+		((Player)player).ResetAttacks (enemies[0]);
+
         // Remove Primed effect from all characters
         player.stats.PrimedWith = AttackPlug.None;
         foreach (Character c in enemies)
@@ -203,11 +229,6 @@ public class BattleManager : MonoBehaviour {
         endNow = true;
     }
 
-    Turn turn;
-    Queue<Attack> Attacks;
-    bool AnimDone;
-    bool endNow;
-
     void Update()
     {
         Character currentChar = turnOrder.Peek();
@@ -215,12 +236,13 @@ public class BattleManager : MonoBehaviour {
         switch(State)
         {
             case BattleState.WaitForTurn:
+				Debug.Log("It is " + currentChar.Name + "'s turn!");
                 // get turn if exists
                 turn = currentChar.NextTurn(player, enemies);
                 if (turn != null)
                     SetupTurn();
                 break;
-            case BattleState.ApplyingTurn:
+			case BattleState.ApplyingTurn:
                 while (!endNow && Attacks.Count > 0)
                     ApplyAttack();
                 EndTurn();

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Stats : MonoBehaviour {
+public class Stats {
 
     public int Health;
     public int MaxHealth;
@@ -18,14 +18,19 @@ public class Stats : MonoBehaviour {
     public AttackPlug PrimedWith;
     public List<StatusEffect> StatusEffects;
 
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+	public Stats(){
+		MaxHealth = 100;
+		Health = MaxHealth;
+		BaseAttack = 5;
+		Speed = 5;
+		Evasion = 5;
+		Defense = 5;
+		MaxAP = 2;
+		AP = MaxAP;
+		WeaknessMultiplier = 2;
+		Type = AttackPlug.None;
+		PrimedWith = AttackPlug.None;
+		StatusEffects = new List<StatusEffect>();
 	}
 
     public void ApplyDamage(int damage, AttackPlug damageType, int attackStat)
